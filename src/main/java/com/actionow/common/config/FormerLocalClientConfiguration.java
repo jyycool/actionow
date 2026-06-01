@@ -41,7 +41,12 @@ public class FormerLocalClientConfiguration implements BeanDefinitionRegistryPos
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false) {
+            @Override
+            protected boolean isCandidateComponent(org.springframework.beans.factory.annotation.AnnotatedBeanDefinition beanDefinition) {
+                return beanDefinition.getMetadata().isInterface() || super.isCandidateComponent(beanDefinition);
+            }
+        };
         scanner.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*LocalClient")));
 
         for (BeanDefinition candidate : scanner.findCandidateComponents(BASE_PACKAGE)) {
