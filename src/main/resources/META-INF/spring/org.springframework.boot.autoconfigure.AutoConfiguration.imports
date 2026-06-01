@@ -1,0 +1,4 @@
+com.actionow.common.web.config.OpenApiConfig
+com.actionow.common.oss.config.OssAutoConfiguration
+com.actionow.common.mail.config.MailAutoConfiguration
+com.actionow.common.mq.outbox.OutboxAutoConfiguration

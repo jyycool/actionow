@@ -1,0 +1,23 @@
+package com.actionow.task.client;
+
+import com.actionow.common.core.result.Result;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 用户服务 本地客户端
+ * 用于批量查询用户名称
+ *
+ * @author Actionow
+ */
+public interface UserLocalClient {
+
+    /**
+     * 批量获取用户基本信息
+     *
+     * @param userIds 用户ID列表
+     * @return 用户ID到基本信息的映射
+     */
+    Result<Map<String, UserBasicInfo>> batchGetUserBasicInfo(List<String> userIds);
+}

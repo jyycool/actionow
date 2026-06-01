@@ -1,0 +1,50 @@
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:5564eaf75394687c}
+      database: 0
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:actionow}
+    password: ${RABBITMQ_PASSWORD:4156c15cff229527}
+    virtual-host: ${RABBITMQ_VHOST:/}
+    ssl:
+      enabled: ${RABBITMQ_SSL_ENABLED:false}
+
+feign:
+  circuitbreaker:
+    enabled: true
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: assign_uuid
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+actionow:
+  internal:
+    auth-secret: ${INTERNAL_AUTH_SECRET:4898ec33d8b4c96733512877e0edb6828d583ed506066a150ff640495645f024}
+    signature-max-age-seconds: 300
+  jwt:
+    secret: ${JWT_SECRET:408e2935b8420e188c0a79ea5fe5a430df4f2aec991e27d0}
+    issuer: actionow
+    access-token-expire: 7200
+    refresh-token-expire: 604800
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized

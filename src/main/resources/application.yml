@@ -1,0 +1,237 @@
+server:
+  port: ${SERVER_PORT:8080}
+  tomcat:
+    max-http-form-post-size: 100MB
+    max-swallow-size: 100MB
+
+spring:
+  application:
+    name: actionow-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  config:
+    import:
+      - optional:classpath:actionow-shared.yml
+      - optional:classpath:oss-shared.yml
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:actionow}?currentSchema=public&stringtype=unspecified
+    username: ${DB_USER:actionow}
+    password: ${DB_PASSWORD:1c7c4de6e50f41812e46a8d0}
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 30
+      idle-timeout: 30000
+      pool-name: ActionowBackendHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:5564eaf75394687c}
+      database: ${REDIS_DATABASE:0}
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:actionow}
+    password: ${RABBITMQ_PASSWORD:4156c15cff229527}
+    virtual-host: ${RABBITMQ_VHOST:/}
+    ssl:
+      enabled: ${RABBITMQ_SSL_ENABLED:false}
+
+  mail:
+    host: ${MAIL_HOST:email-smtp.ap-northeast-1.amazonaws.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+  ai:
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: assign_uuid
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ai-service:
+        register-health-indicator: true
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 30s
+        failure-rate-threshold: 50
+        slow-call-rate-threshold: 100
+        slow-call-duration-threshold: 60s
+      default:
+        register-health-indicator: true
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 10s
+        failure-rate-threshold: 50
+  timelimiter:
+    instances:
+      ai-service:
+        timeout-duration: 120s
+        cancel-running-future: true
+      default:
+        timeout-duration: 30s
+  retry:
+    instances:
+      ai-service:
+        max-attempts: 3
+        wait-duration: 2s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+      default:
+        max-attempts: 2
+        wait-duration: 500ms
+
+dify:
+  url: ${DIFY_BASE_URL:http://localhost:5001}
+
+actionow:
+  internal:
+    auth-secret: ${INTERNAL_AUTH_SECRET:4898ec33d8b4c96733512877e0edb6828d583ed506066a150ff640495645f024}
+    signature-max-age-seconds: 300
+  jwt:
+    secret: ${JWT_SECRET:408e2935b8420e188c0a79ea5fe5a430df4f2aec991e27d0}
+    issuer: actionow
+    access-token-expire: 7200
+    refresh-token-expire: 604800
+  mail:
+    enabled: true
+    provider: ${MAIL_PROVIDER:resend}
+    from: ${MAIL_FROM:support@actionow.ai}
+    from-name: 开拍 ActioNow
+    region: ap-northeast-1
+    retry:
+      max-attempts: 3
+      delay: 1000
+    resend:
+      api-key: ${RESEND_API_KEY:}
+  outbox:
+    enabled: true
+  ai:
+    groovy:
+      sandbox:
+        max-execution-time-ms: ${GROOVY_MAX_EXECUTION_TIME_MS:300000}
+  skill:
+    package-url: ${SKILL_PACKAGE_URL:}
+  saa:
+    default-model: ${SAA_DEFAULT_MODEL:qwen-max}
+    max-iterations: ${SAA_MAX_ITERATIONS:20}
+    rag-enabled: ${RAG_ENABLED:false}
+  embedding:
+    api-key: ${GOOGLE_API_KEY:}
+    model: ${EMBEDDING_MODEL:text-embedding-004}
+    dimension: 768
+    batch-size: 100
+  context:
+    context-window-usage-ratio: 0.8
+    micro-compact-recent-rounds: 3
+    micro-compact-threshold-chars: 300
+    micro-compact-reference-threshold-chars: 5000
+    auto-compact-recent-rounds: 4
+    summary-llm-provider-id:
+    max-rag-documents: 10
+    rag-similarity-threshold: 0.6
+    rag-query-timeout-ms: 3000
+  agent:
+    vision-llm-provider-id: ${VISION_LLM_PROVIDER_ID:}
+    billing:
+      idle-timeout-minutes: ${BILLING_IDLE_TIMEOUT:30}
+      batch-size: ${BILLING_BATCH_SIZE:50}
+      max-retry-count: ${BILLING_MAX_RETRY:3}
+      settle-interval-ms: ${BILLING_SETTLE_INTERVAL:300000}
+      retry-interval-ms: ${BILLING_RETRY_INTERVAL:600000}
+    session:
+      max-active-per-scope: ${SESSION_MAX_ACTIVE_PER_SCOPE:5}
+      max-active-global: ${SESSION_MAX_ACTIVE_GLOBAL:3}
+      max-total-per-user: ${SESSION_MAX_TOTAL_PER_USER:200}
+      idle-archive-days: ${SESSION_IDLE_ARCHIVE_DAYS:30}
+      soft-delete-retention-days: ${SESSION_SOFT_DELETE_RETENTION:90}
+      context-expiry-ms: ${SESSION_CONTEXT_EXPIRY_MS:1800000}
+      batch-size: ${SESSION_BATCH_SIZE:100}
+    message:
+      per-segment-write:
+        enabled: ${AGENT_MESSAGE_PER_SEGMENT_WRITE:false}
+      segment-split:
+        enabled: ${AGENT_MESSAGE_SEGMENT_SPLIT:true}
+      collapse-adjacent:
+        enabled: ${AGENT_MESSAGE_COLLAPSE_ADJACENT:true}
+      skip-placeholder:
+        enabled: ${AGENT_MESSAGE_SKIP_PLACEHOLDER:false}
+    mission:
+      max-steps: ${MISSION_MAX_STEPS:50}
+      max-retries: ${MISSION_MAX_RETRIES:3}
+      max-context-steps: ${MISSION_MAX_CONTEXT_STEPS:10}
+      max-step-summary-chars: ${MISSION_MAX_STEP_SUMMARY_CHARS:500}
+      loop-warn-threshold: ${MISSION_LOOP_WARN_THRESHOLD:5}
+      loop-fail-threshold: ${MISSION_LOOP_FAIL_THRESHOLD:10}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+    try-it-out-enabled: true
+    persist-authorization: true
+    with-credentials: true
+  show-actuator: false
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+  health:
+    mail:
+      enabled: false
+
+logging:
+  level:
+    com.actionow: DEBUG
+    org.springframework.security: INFO
+    io.github.guoshiqiufeng.dify: ${LOG_LEVEL:INFO}
+    com.alibaba.cloud.ai: INFO
+    com.alibaba.cloud.ai.graph.agent.flow.node.MainAgentNodeAction: ERROR
