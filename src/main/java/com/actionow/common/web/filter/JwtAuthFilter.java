@@ -55,13 +55,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
-        if (!jwtUtils.validateToken(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         try {
-            JwtClaims claims = jwtUtils.parseToken(token);
+            // parseTokenAllowExpired: 签名仍校验，允许过期（单机版无网关刷新 token 场景）
+            JwtClaims claims = jwtUtils.parseTokenAllowExpired(token);
+            if (claims == null || claims.getUserId() == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
 
             String internalToken = InternalAuthUtils.generateInternalToken(
                     internalAuthProperties.getAuthSecret(),
