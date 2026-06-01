@@ -24,7 +24,7 @@ import java.util.List;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/episodes")
+@RequestMapping("/project/episodes")
 @RequiredArgsConstructor
 public class EpisodeController {
 

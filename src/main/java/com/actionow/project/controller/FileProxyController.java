@@ -41,7 +41,7 @@ import java.io.InputStream;
  */
 @Slf4j
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/project/files")
 @RequiredArgsConstructor
 @RequireLogin
 public class FileProxyController {

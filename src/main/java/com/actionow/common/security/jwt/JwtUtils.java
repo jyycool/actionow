@@ -228,6 +228,34 @@ public class JwtUtils {
     }
 
     /**
+     * 解析 Token，允许已过期的 Token（单机版兼容）
+     * 签名仍会校验，仅跳过过期时间检查
+     */
+    public JwtClaims parseTokenAllowExpired(String token) {
+        try {
+            return parseToken(token);
+        } catch (ExpiredJwtException e) {
+            Claims claims = e.getClaims();
+            return JwtClaims.builder()
+                    .userId(claims.get(CLAIM_USER_ID, String.class))
+                    .username(claims.get(CLAIM_USERNAME, String.class))
+                    .nickname(claims.get(CLAIM_NICKNAME, String.class))
+                    .email(claims.get(CLAIM_EMAIL, String.class))
+                    .roles(parseRoles(claims.get(CLAIM_ROLES)))
+                    .sessionId(claims.get(CLAIM_SESSION_ID, String.class))
+                    .workspaceId(claims.get(CLAIM_WORKSPACE_ID, String.class))
+                    .tenantSchema(claims.get(CLAIM_TENANT_SCHEMA, String.class))
+                    .permVersion(claims.get(CLAIM_PERM_VERSION, Integer.class))
+                    .deviceId(claims.get(CLAIM_DEVICE_ID, String.class))
+                    .tokenId(claims.getId())
+                    .tokenType(claims.get(CLAIM_TOKEN_TYPE, String.class))
+                    .issuedAt(parseIssuedAtMillis(claims))
+                    .expiration(claims.getExpiration() != null ? claims.getExpiration().getTime() : 0L)
+                    .build();
+        }
+    }
+
+    /**
      * 判断是否为 Access Token
      */
     public boolean isAccessToken(String token) {

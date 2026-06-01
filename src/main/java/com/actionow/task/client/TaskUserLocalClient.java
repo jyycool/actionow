@@ -1,4 +1,4 @@
-package com.actionow.project.client;
+package com.actionow.task.client;
 
 import com.actionow.common.core.result.Result;
 import com.actionow.user.controller.InternalUserController;
@@ -10,18 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Project 模块访问 User 域的本地适配器。
+ * Task 模块访问 User 域的本地适配器。
  */
 @Component
 @RequiredArgsConstructor
-public class ProjectUserLocalClient implements UserLocalClient {
+public class TaskUserLocalClient implements UserLocalClient {
 
     private final InternalUserController internalUserController;
-
-    @Override
-    public Result<UserBasicInfo> getUserBasicInfo(String userId) {
-        return internalUserController.getUserBasicInfo(userId);
-    }
 
     @Override
     public Result<Map<String, UserBasicInfo>> batchGetUserBasicInfo(List<String> userIds) {

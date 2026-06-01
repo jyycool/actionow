@@ -12,7 +12,7 @@ import com.actionow.project.dto.asset.AssetResponse;
 import com.actionow.project.dto.relation.*;
 import com.actionow.project.entity.EntityAssetRelation;
 import com.actionow.project.entity.*;
-import com.actionow.project.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.project.mapper.*;
 import com.actionow.project.publisher.EntityChangeEventPublisher;
 import com.actionow.project.service.*;

@@ -1,7 +1,7 @@
 package com.actionow.agent.saa.factory;
 
 import com.actionow.agent.client.AiLocalClient;
-import com.actionow.agent.client.dto.LlmCredentialsResponse;
+import com.actionow.ai.llm.dto.LlmCredentialsResponse;
 import com.actionow.common.core.exception.BusinessException;
 import com.actionow.common.core.result.Result;
 import com.github.benmanes.caffeine.cache.Cache;

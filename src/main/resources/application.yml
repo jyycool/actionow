@@ -1,5 +1,7 @@
 server:
   port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /api
   tomcat:
     max-http-form-post-size: 100MB
     max-swallow-size: 100MB
@@ -215,6 +217,7 @@ springdoc:
   show-actuator: false
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+  packages-to-scan: com.actionow
 
 management:
   endpoints:

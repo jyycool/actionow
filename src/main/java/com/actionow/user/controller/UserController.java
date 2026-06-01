@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Tag(name = "用户管理", description = "用户信息查询和管理")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user/users")
 @RequiredArgsConstructor
 public class UserController extends BaseController {
 

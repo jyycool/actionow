@@ -1,6 +1,6 @@
 package com.actionow.project.service;
 
-import com.actionow.project.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 
 import java.util.Collection;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.actionow.project.client;
+package com.actionow.workspace.client;
 
 import com.actionow.common.core.result.Result;
 import com.actionow.user.controller.InternalUserController;
@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Project 模块访问 User 域的本地适配器。
+ * Workspace 模块访问 User 域的本地适配器。
  */
 @Component
 @RequiredArgsConstructor
-public class ProjectUserLocalClient implements UserLocalClient {
+public class WorkspaceUserLocalClient implements UserLocalClient {
 
     private final InternalUserController internalUserController;
 

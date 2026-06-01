@@ -1,6 +1,8 @@
 package com.actionow.ai.client;
 
 import com.actionow.common.core.result.Result;
+import com.actionow.task.controller.TaskInternalController;
+import com.actionow.task.dto.CreateTaskRequest;
 
 import java.util.Map;
 
@@ -21,7 +23,7 @@ public interface TaskLocalClient {
     /**
      * 更新任务状态
      */
-    Result<Void> updateTaskStatus(UpdateTaskStatusRequest request);
+    Result<Void> updateTaskStatus(TaskInternalController.UpdateStatusRequest request);
 
     /**
      * 通知 Task 模块处理 AI 回调结果
@@ -33,26 +35,4 @@ public interface TaskLocalClient {
     Result<Void> notifyTaskCallback(
             String taskId,
             Map<String, Object> payload);
-
-    /**
-     * 创建任务请求
-     */
-    record CreateTaskRequest(
-            String name,
-            String type,
-            String priority,
-            Map<String, Object> inputParams,
-            String callbackUrl,
-            String creatorId
-    ) {}
-
-    /**
-     * 更新任务状态请求
-     */
-    record UpdateTaskStatusRequest(
-            String taskId,
-            String status,
-            String errorMessage,
-            Map<String, Object> result
-    ) {}
 }

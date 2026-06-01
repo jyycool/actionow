@@ -25,7 +25,7 @@ import java.util.List;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/assets")
+@RequestMapping("/project/assets")
 @RequiredArgsConstructor
 public class AssetController {
 

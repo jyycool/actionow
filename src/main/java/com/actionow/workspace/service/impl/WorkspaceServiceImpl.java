@@ -13,7 +13,7 @@ import com.actionow.workspace.enums.WorkspaceErrorCode;
 import com.actionow.workspace.dto.*;
 import com.actionow.workspace.entity.Workspace;
 import com.actionow.workspace.entity.WorkspaceMember;
-import com.actionow.workspace.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.workspace.client.UserLocalClient;
 import com.actionow.workspace.mapper.WorkspaceInvitationMapper;
 import com.actionow.workspace.mapper.WorkspaceMemberMapper;

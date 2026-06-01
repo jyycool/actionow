@@ -3,6 +3,7 @@ package com.actionow.ai.client;
 import com.actionow.common.core.result.Result;
 import com.actionow.common.util.LocalClientDtoMapper;
 import com.actionow.task.controller.TaskInternalController;
+import com.actionow.task.dto.CreateTaskRequest;
 import com.actionow.task.dto.ProviderExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ObjectProvider;
@@ -25,16 +26,12 @@ public class AiTaskLocalClient implements TaskLocalClient {
 
     @Override
     public Result<Map<String, Object>> createTask(String workspaceId, CreateTaskRequest request) {
-        com.actionow.task.dto.CreateTaskRequest taskRequest =
-                LocalClientDtoMapper.convert(request, com.actionow.task.dto.CreateTaskRequest.class);
-        return taskInternalController().createTask(workspaceId, taskRequest);
+        return taskInternalController().createTask(workspaceId, request);
     }
 
     @Override
-    public Result<Void> updateTaskStatus(UpdateTaskStatusRequest request) {
-        TaskInternalController.UpdateStatusRequest taskRequest = new TaskInternalController.UpdateStatusRequest(
-                request.taskId(), request.status(), request.errorMessage(), request.result());
-        return taskInternalController().updateTaskStatus(taskRequest);
+    public Result<Void> updateTaskStatus(TaskInternalController.UpdateStatusRequest request) {
+        return taskInternalController().updateTaskStatus(request);
     }
 
     @Override

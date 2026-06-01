@@ -1,6 +1,7 @@
 package com.actionow.workspace.client;
 
 import com.actionow.common.core.result.Result;
+import com.actionow.wallet.dto.WalletResponse;
 
 /**
  * 钱包服务 本地客户端
@@ -17,7 +18,7 @@ public interface WalletLocalClient {
      * @param workspaceId 工作空间 ID
      * @return 创建结果
      */
-    Result<WalletBasicInfo> createWallet(String workspaceId);
+    Result<WalletResponse> createWallet(String workspaceId);
 
     /**
      * 删除成员配额记录

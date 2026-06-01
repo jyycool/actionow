@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @Tag(name = "AI监控", description = "AI执行监控和统计")
 @RestController
-@RequestMapping("/monitoring")
+@RequestMapping("/ai/monitoring")
 @RequiredArgsConstructor
 @RequireSystemTenant(minRole = "ADMIN")
 public class AiMonitoringController {

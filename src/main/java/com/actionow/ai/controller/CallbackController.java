@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/callback")
+@RequestMapping("/ai/callback")
 @RequiredArgsConstructor
 @IgnoreAuth
 public class CallbackController {

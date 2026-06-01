@@ -36,7 +36,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/model-providers")
+@RequestMapping("/ai/model-providers")
 @RequiredArgsConstructor
 @Tag(name = "模型提供商管理", description = "AI模型提供商的增删改查和Schema管理")
 @RequireSystemTenant(minRole = "ADMIN")

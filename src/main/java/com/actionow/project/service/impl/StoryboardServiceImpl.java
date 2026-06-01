@@ -23,7 +23,7 @@ import com.actionow.project.service.StoryboardService;
 import com.actionow.project.service.UserInfoHelper;
 import com.actionow.project.service.version.VersionService;
 import com.actionow.project.dto.version.StoryboardVersionDetailResponse;
-import com.actionow.project.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.project.service.AssetService;
 import com.actionow.project.dto.asset.AssetResponse;
 import com.actionow.common.mq.publisher.CanvasMessagePublisher;

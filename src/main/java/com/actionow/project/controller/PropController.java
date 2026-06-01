@@ -29,7 +29,7 @@ import java.util.List;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/props")
+@RequestMapping("/project/props")
 @RequiredArgsConstructor
 public class PropController {
 

@@ -1,7 +1,7 @@
 package com.actionow.project.service.impl;
 
 import com.actionow.common.core.result.Result;
-import com.actionow.project.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.project.client.UserLocalClient;
 import com.actionow.project.service.UserInfoHelper;
 import lombok.RequiredArgsConstructor;

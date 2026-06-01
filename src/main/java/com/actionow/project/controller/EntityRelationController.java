@@ -20,7 +20,7 @@ import java.util.Map;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/entity-relations")
+@RequestMapping("/project/entity-relations")
 @RequiredArgsConstructor
 public class EntityRelationController {
 

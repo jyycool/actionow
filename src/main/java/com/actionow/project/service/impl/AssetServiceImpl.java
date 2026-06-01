@@ -15,7 +15,7 @@ import com.actionow.common.file.dto.PresignedUploadResult;
 import com.actionow.project.constant.ProjectConstants;
 import com.actionow.project.dto.asset.*;
 import com.actionow.project.entity.Asset;
-import com.actionow.project.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.project.dto.relation.CreateEntityAssetRelationRequest;
 import com.actionow.project.mapper.AssetMapper;
 import com.actionow.project.mapper.EntityAssetRelationMapper;

@@ -11,11 +11,11 @@ import com.actionow.agent.config.service.AgentConfigService;
 import com.actionow.agent.constant.BillingSessionStatus;
 import com.actionow.agent.client.AiLocalClient;
 import com.actionow.agent.client.WalletLocalClient;
-import com.actionow.agent.client.dto.ConfirmConsumeRequest;
-import com.actionow.agent.client.dto.FreezeRequest;
-import com.actionow.agent.client.dto.FreezeResponse;
-import com.actionow.agent.client.dto.LlmProviderResponse;
-import com.actionow.agent.client.dto.UnfreezeRequest;
+import com.actionow.ai.llm.dto.LlmProviderResponse;
+import com.actionow.wallet.dto.ConfirmConsumeRequest;
+import com.actionow.wallet.dto.FreezeRequest;
+import com.actionow.wallet.dto.TransactionResponse;
+import com.actionow.wallet.dto.UnfreezeRequest;
 import com.actionow.agent.billing.exception.InsufficientCreditsException;
 import com.actionow.common.core.exception.BusinessException;
 import com.actionow.common.core.result.PageResult;
@@ -123,22 +123,21 @@ public class AgentBillingService {
         long freezeAmount = billingCalculator.getDefaultFreezeAmount();
 
         // 4. 调用钱包服务冻结积分
-        FreezeRequest freezeRequest = FreezeRequest.builder()
-                .workspaceId(workspaceId)
-                .operatorId(userId)
-                .amount(freezeAmount)
-                .businessType(BUSINESS_TYPE_AGENT_SESSION)
-                .businessId(conversationId)
-                .remark("Agent 会话预冻结")
-                .build();
+        FreezeRequest freezeRequest = new FreezeRequest();
+        freezeRequest.setWorkspaceId(workspaceId);
+        freezeRequest.setOperatorId(userId);
+        freezeRequest.setAmount(freezeAmount);
+        freezeRequest.setBusinessType(BUSINESS_TYPE_AGENT_SESSION);
+        freezeRequest.setBusinessId(conversationId);
+        freezeRequest.setDescription("Agent 会话预冻结");
 
-        Result<FreezeResponse> freezeResult = walletLocalClient.freeze(workspaceId, freezeRequest);
+        Result<TransactionResponse> freezeResult = walletLocalClient.freeze(workspaceId, freezeRequest);
         if (!freezeResult.isSuccess()) {
             throw new BusinessException(ResultCode.FAIL,
                     "冻结积分失败: " + freezeResult.getMessage());
         }
 
-        String transactionId = freezeResult.getData().getTransactionId();
+        String transactionId = freezeResult.getData().getId();
 
         // 5. 创建计费会话记录
         AgentBillingSession session = new AgentBillingSession();
@@ -327,14 +326,12 @@ public class AgentBillingService {
             }
 
             // 4. 调用钱包服务确认消费
-            ConfirmConsumeRequest confirmRequest = ConfirmConsumeRequest.builder()
-                    .workspaceId(workspaceId)
-                    .operatorId(operatorId)
-                    .businessId(conversationId)
-                    .businessType(BUSINESS_TYPE_AGENT_SESSION)
-                    .actualAmount(safeConsumeAmount)
-                    .remark("Agent 会话结算")
-                    .build();
+            ConfirmConsumeRequest confirmRequest = new ConfirmConsumeRequest();
+            confirmRequest.setWorkspaceId(workspaceId);
+            confirmRequest.setOperatorId(operatorId);
+            confirmRequest.setBusinessId(conversationId);
+            confirmRequest.setBusinessType(BUSINESS_TYPE_AGENT_SESSION);
+            confirmRequest.setActualAmount(safeConsumeAmount);
 
             Result<Void> confirmResult = walletLocalClient.confirmConsume(workspaceId, confirmRequest);
             if (!confirmResult.isSuccess()) {
@@ -381,13 +378,11 @@ public class AgentBillingService {
         }
 
         // 2. 调用钱包服务解冻积分
-        UnfreezeRequest unfreezeRequest = UnfreezeRequest.builder()
-                .workspaceId(workspaceId)
-                .operatorId(operatorId)
-                .businessId(conversationId)
-                .businessType(BUSINESS_TYPE_AGENT_SESSION)
-                .remark("Agent 会话取消")
-                .build();
+        UnfreezeRequest unfreezeRequest = new UnfreezeRequest();
+        unfreezeRequest.setWorkspaceId(workspaceId);
+        unfreezeRequest.setOperatorId(operatorId);
+        unfreezeRequest.setBusinessId(conversationId);
+        unfreezeRequest.setBusinessType(BUSINESS_TYPE_AGENT_SESSION);
 
         Result<Void> unfreezeResult = walletLocalClient.unfreeze(workspaceId, unfreezeRequest);
         if (!unfreezeResult.isSuccess()) {
@@ -527,17 +522,16 @@ public class AgentBillingService {
         if (totalCost >= threshold) {
             long additionalFreeze = latest.getFrozenAmount(); // 追加同等金额
 
-            FreezeRequest freezeRequest = FreezeRequest.builder()
-                    .workspaceId(latest.getWorkspaceId())
-                    .operatorId(latest.getUserId())
-                    .amount(additionalFreeze)
-                    .businessType(BUSINESS_TYPE_AGENT_SESSION)
-                    .businessId(latest.getConversationId())
-                    .remark("Agent 会话追加冻结")
-                    .build();
+            FreezeRequest freezeRequest = new FreezeRequest();
+            freezeRequest.setWorkspaceId(latest.getWorkspaceId());
+            freezeRequest.setOperatorId(latest.getUserId());
+            freezeRequest.setAmount(additionalFreeze);
+            freezeRequest.setBusinessType(BUSINESS_TYPE_AGENT_SESSION);
+            freezeRequest.setBusinessId(latest.getConversationId());
+            freezeRequest.setDescription("Agent 会话追加冻结");
 
             try {
-                Result<FreezeResponse> result = walletLocalClient.freeze(
+                Result<TransactionResponse> result = walletLocalClient.freeze(
                         latest.getWorkspaceId(), freezeRequest);
 
                 if (result.isSuccess()) {

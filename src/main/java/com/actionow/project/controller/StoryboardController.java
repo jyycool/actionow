@@ -24,7 +24,7 @@ import java.util.List;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/storyboards")
+@RequestMapping("/project/storyboards")
 @RequiredArgsConstructor
 public class StoryboardController {
 

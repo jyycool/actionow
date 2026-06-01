@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Tag(name = "OAuth管理", description = "第三方登录授权相关接口")
 @RestController
-@RequestMapping("/oauth")
+@RequestMapping("/user/oauth")
 @RequiredArgsConstructor
 public class OAuthController extends BaseController {
 

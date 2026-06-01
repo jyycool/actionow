@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Tag(name = "LLM Provider", description = "LLM 模型配置管理")
 @RestController
-@RequestMapping("/llm-providers")
+@RequestMapping("/ai/llm-providers")
 @RequiredArgsConstructor
 @RequireSystemTenant(minRole = "ADMIN")
 public class LlmProviderController {
