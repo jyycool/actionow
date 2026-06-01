@@ -19,7 +19,7 @@ import com.actionow.project.service.StyleService;
 import com.actionow.project.service.UserInfoHelper;
 import com.actionow.project.service.version.VersionService;
 import com.actionow.project.dto.version.StyleVersionDetailResponse;
-import com.actionow.project.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.common.mq.publisher.CanvasMessagePublisher;
 import com.actionow.common.mq.message.CollabEntityChangeEvent;
 import com.actionow.project.publisher.EntityChangeEventPublisher;

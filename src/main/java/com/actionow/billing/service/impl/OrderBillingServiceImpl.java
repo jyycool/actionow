@@ -9,7 +9,7 @@ import com.actionow.billing.enums.OrderStatus;
 import com.actionow.billing.enums.PaymentProvider;
 import com.actionow.billing.client.SystemLocalClient;
 import com.actionow.billing.client.WalletLocalClient;
-import com.actionow.billing.client.WalletTopupRequest;
+import com.actionow.wallet.dto.TopupRequest;
 import com.actionow.billing.mapper.PaymentOrderMapper;
 import com.actionow.billing.provider.CheckoutSessionResult;
 import com.actionow.billing.provider.PaymentProviderAdapter;
@@ -197,13 +197,13 @@ public class OrderBillingServiceImpl implements OrderBillingService {
         }
 
         // 调用钱包入账。wallet 侧会基于 paymentOrderId 做幂等。
-        WalletTopupRequest topupRequest = new WalletTopupRequest();
+        TopupRequest topupRequest = new TopupRequest();
         topupRequest.setAmount(order.getPointsAmount());
         topupRequest.setDescription("支付充值: " + orderNo);
         topupRequest.setPaymentOrderId(orderNo);
         topupRequest.setPaymentMethod(provider);
 
-        Result<Object> topupResult = walletLocalClient.topup(order.getWorkspaceId(), topupRequest, BILLING_SYSTEM_OPERATOR);
+        Result<com.actionow.wallet.dto.TransactionResponse> topupResult = walletLocalClient.topup(order.getWorkspaceId(), topupRequest, BILLING_SYSTEM_OPERATOR);
         if (topupResult == null || !topupResult.isSuccess()) {
             String error = topupResult != null ? topupResult.getMessage() : "wallet 服务无响应";
             log.error("支付成功但钱包入账失败: orderNo={}, workspaceId={}, error={}",

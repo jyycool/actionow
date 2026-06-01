@@ -5,7 +5,7 @@ import com.actionow.task.dto.AvailableProviderResponse;
 import com.actionow.task.dto.TaskResponse;
 import com.actionow.task.client.AiLocalClient;
 import com.actionow.task.client.ProjectLocalClient;
-import com.actionow.task.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.task.client.UserLocalClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

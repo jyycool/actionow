@@ -1,14 +1,13 @@
 package com.actionow.task.client;
 
 import com.actionow.common.core.result.Result;
-import com.actionow.common.util.LocalClientDtoMapper;
 import com.actionow.user.controller.InternalUserController;
+import com.actionow.user.dto.response.UserBasicInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Task 模块访问 User 域的本地适配器。
@@ -21,17 +20,6 @@ public class TaskUserLocalClient implements UserLocalClient {
 
     @Override
     public Result<Map<String, UserBasicInfo>> batchGetUserBasicInfo(List<String> userIds) {
-        Result<Map<String, com.actionow.user.dto.response.UserBasicInfo>> source =
-                internalUserController.batchGetUserBasicInfo(userIds);
-        if (source == null || !source.isSuccess()) {
-            return Result.fail(source != null ? source.getCode() : "500",
-                    source != null ? source.getMessage() : "User 本地调用失败");
-        }
-        Map<String, UserBasicInfo> converted = source.getData() == null
-                ? Map.of()
-                : source.getData().entrySet().stream().collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        e -> LocalClientDtoMapper.convert(e.getValue(), UserBasicInfo.class)));
-        return Result.success(converted, source.getMessage());
+        return internalUserController.batchGetUserBasicInfo(userIds);
     }
 }

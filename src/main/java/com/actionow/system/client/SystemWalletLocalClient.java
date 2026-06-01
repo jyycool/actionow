@@ -1,7 +1,6 @@
 package com.actionow.system.client;
 
 import com.actionow.common.core.result.Result;
-import com.actionow.common.util.LocalClientDtoMapper;
 import com.actionow.wallet.controller.WalletInternalController;
 import com.actionow.wallet.dto.TopupRequest;
 import com.actionow.wallet.dto.TransactionResponse;
@@ -15,15 +14,7 @@ public class SystemWalletLocalClient implements WalletLocalClient {
     private final WalletInternalController walletInternalController;
 
     @Override
-    public Result<Object> topup(String workspaceId, WalletTopupRequest request, String operatorId) {
-        Result<TransactionResponse> result = walletInternalController.topup(
-                workspaceId,
-                LocalClientDtoMapper.convert(request, TopupRequest.class),
-                operatorId
-        );
-        if (result == null || !result.isSuccess()) {
-            return Result.fail(result != null ? result.getMessage() : "钱包充值失败");
-        }
-        return Result.success(result.getData(), result.getMessage());
+    public Result<TransactionResponse> topup(String workspaceId, TopupRequest request, String operatorId) {
+        return walletInternalController.topup(workspaceId, request, operatorId);
     }
 }

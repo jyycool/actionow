@@ -11,7 +11,7 @@ import com.actionow.collab.comment.mapper.CommentMapper;
 import com.actionow.collab.comment.mapper.CommentReactionMapper;
 import com.actionow.collab.comment.service.CommentService;
 import com.actionow.collab.constant.CollabConstants;
-import com.actionow.collab.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.collab.client.UserLocalClient;
 import com.actionow.collab.notification.service.NotificationDispatcher;
 import com.actionow.collab.watch.service.EntityWatchService;

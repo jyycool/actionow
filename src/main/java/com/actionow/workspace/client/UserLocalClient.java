@@ -1,6 +1,7 @@
 package com.actionow.workspace.client;
 
 import com.actionow.common.core.result.Result;
+import com.actionow.user.dto.response.UserBasicInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -12,13 +13,7 @@ import java.util.Map;
  */
 public interface UserLocalClient {
 
-    /**
-     * 根据用户ID获取基本信息
-     */
     Result<UserBasicInfo> getUserBasicInfo(String userId);
 
-    /**
-     * 批量获取用户基本信息
-     */
     Result<Map<String, UserBasicInfo>> batchGetUserBasicInfo(List<String> userIds);
 }

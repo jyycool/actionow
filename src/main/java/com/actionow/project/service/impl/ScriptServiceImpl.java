@@ -23,7 +23,7 @@ import com.actionow.project.service.ScriptService;
 import com.actionow.project.service.UserInfoHelper;
 import com.actionow.project.service.version.VersionService;
 import com.actionow.project.dto.version.ScriptVersionDetailResponse;
-import com.actionow.project.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.project.client.CanvasLocalClient;
 import com.actionow.project.publisher.EntityChangeEventPublisher;
 import com.actionow.common.mq.message.CollabEntityChangeEvent;

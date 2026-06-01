@@ -4,7 +4,7 @@ import com.actionow.collab.dto.TokenValidateRequest;
 import com.actionow.collab.dto.TokenValidateResponse;
 import com.actionow.collab.client.UserLocalClient;
 import com.actionow.collab.client.WorkspaceLocalClient;
-import com.actionow.collab.client.WorkspaceMembershipInfo;
+import com.actionow.workspace.dto.WorkspaceMembershipInfo;
 import com.actionow.common.core.result.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

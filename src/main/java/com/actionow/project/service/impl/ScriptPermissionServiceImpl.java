@@ -11,7 +11,7 @@ import com.actionow.project.dto.GrantScriptPermissionRequest;
 import com.actionow.project.dto.InviteScriptCollaboratorRequest;
 import com.actionow.project.dto.ScriptPermissionResponse;
 import com.actionow.project.entity.ScriptPermission;
-import com.actionow.project.client.UserBasicInfo;
+import com.actionow.user.dto.response.UserBasicInfo;
 import com.actionow.project.client.WorkspaceLocalClient;
 import com.actionow.project.mapper.ScriptPermissionMapper;
 import com.actionow.project.service.ScriptPermissionService;

@@ -8,7 +8,7 @@ import com.actionow.system.dto.GiftCodeRedeemResponse;
 import com.actionow.system.entity.GiftCode;
 import com.actionow.system.entity.GiftCodeRedemption;
 import com.actionow.system.client.WalletLocalClient;
-import com.actionow.system.client.WalletTopupRequest;
+import com.actionow.wallet.dto.TopupRequest;
 import com.actionow.system.mapper.GiftCodeMapper;
 import com.actionow.system.mapper.GiftCodeRedemptionMapper;
 import com.actionow.system.service.GiftCodeRedemptionService;
@@ -83,13 +83,13 @@ public class GiftCodeRedemptionServiceImpl implements GiftCodeRedemptionService 
         }
 
         // 调用钱包入账，paymentOrderId 用于钱包侧的幂等
-        WalletTopupRequest topup = new WalletTopupRequest();
+        TopupRequest topup = new TopupRequest();
         topup.setAmount(giftCode.getPoints());
         topup.setDescription("礼包码兑换: " + code);
         topup.setPaymentOrderId("gift_" + redemption.getId());
         topup.setPaymentMethod(PAYMENT_METHOD);
 
-        Result<Object> result = walletLocalClient.topup(workspaceId, topup, OPERATOR_ID);
+        Result<com.actionow.wallet.dto.TransactionResponse> result = walletLocalClient.topup(workspaceId, topup, OPERATOR_ID);
         if (result == null || !result.isSuccess()) {
             String error = result != null ? result.getMessage() : "钱包服务无响应";
             log.error("礼包码兑换钱包入账失败 code={} workspaceId={} error={}", code, workspaceId, error);
