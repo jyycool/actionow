@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/system/library")
+@RequestMapping("/project/system/library")
 @RequiredArgsConstructor
 @RequireSystemTenant(minRole = "ADMIN")
 public class SystemLibraryController {

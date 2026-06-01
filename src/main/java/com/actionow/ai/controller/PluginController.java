@@ -19,7 +19,7 @@ import java.util.Set;
  */
 @Slf4j
 @RestController
-@RequestMapping("/plugins")
+@RequestMapping("/ai/plugins")
 @RequiredArgsConstructor
 @RequireSystemTenant(minRole = "ADMIN")
 public class PluginController {

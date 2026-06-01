@@ -29,7 +29,7 @@ import java.util.List;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/styles")
+@RequestMapping("/project/styles")
 @RequiredArgsConstructor
 public class StyleController {
 

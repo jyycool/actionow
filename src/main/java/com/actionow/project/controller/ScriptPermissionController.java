@@ -21,7 +21,7 @@ import java.util.List;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/scripts")
+@RequestMapping("/project/scripts")
 @RequiredArgsConstructor
 public class ScriptPermissionController {
 

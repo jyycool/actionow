@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Tag(name = "表单Schema", description = "动态表单Schema查询和验证")
 @RestController
-@RequestMapping("/form-schema")
+@RequestMapping("/ai/form-schema")
 @RequiredArgsConstructor
 @Validated
 @RequireSystemTenant(minRole = "ADMIN")

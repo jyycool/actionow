@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/library")
+@RequestMapping("/project/library")
 @RequiredArgsConstructor
 public class PublicLibraryController {
 

@@ -29,7 +29,7 @@ import java.util.List;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/scenes")
+@RequestMapping("/project/scenes")
 @RequiredArgsConstructor
 public class SceneController {
 

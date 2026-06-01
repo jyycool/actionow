@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/groovy-templates")
+@RequestMapping("/ai/groovy-templates")
 @RequiredArgsConstructor
 public class GroovyTemplateController {
 

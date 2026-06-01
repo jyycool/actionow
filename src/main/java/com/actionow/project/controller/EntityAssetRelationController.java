@@ -20,7 +20,7 @@ import java.util.List;
  * @author Actionow
  */
 @RestController
-@RequestMapping("/entity-assets")
+@RequestMapping("/project/entity-assets")
 @RequiredArgsConstructor
 public class EntityAssetRelationController {
 
