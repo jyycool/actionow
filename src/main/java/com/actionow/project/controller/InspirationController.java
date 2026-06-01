@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @Deprecated(since = "3.0", forRemoval = true)
 @Slf4j
 @RestController
-@RequestMapping("/project/inspiration")
+@RequestMapping("/inspiration")
 @RequiredArgsConstructor
 public class InspirationController {
 
