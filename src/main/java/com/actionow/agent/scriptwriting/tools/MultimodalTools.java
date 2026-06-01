@@ -16,8 +16,8 @@ import com.actionow.agent.dto.response.EntityGenerationResponse;
 import com.actionow.agent.client.AiLocalClient;
 import com.actionow.agent.client.AssetLocalClient;
 import com.actionow.agent.client.ProjectLocalClient;
-import com.actionow.agent.client.dto.AssetDetailResponse;
-import com.actionow.agent.client.dto.AvailableProviderResponse;
+import com.actionow.project.dto.asset.AssetResponse;
+import com.actionow.ai.dto.AvailableProviderResponse;
 import com.actionow.agent.saa.factory.SaaChatModelFactory;
 import com.actionow.agent.service.EntityGenerationFacade;
 import com.actionow.agent.tool.annotation.AgentToolOutput;
@@ -1062,13 +1062,13 @@ public class MultimodalTools {
 
         try {
             // 3. 批量获取素材详情
-            Result<List<AssetDetailResponse>> assetsResult = assetLocalClient.batchGetAssetDetails(assetIds);
+            Result<List<AssetResponse>> assetsResult = assetLocalClient.batchGetAssetDetails(assetIds);
             if (!assetsResult.isSuccess() || assetsResult.getData() == null || assetsResult.getData().isEmpty()) {
                 return Map.of("success", false, "error", "获取素材详情失败: " +
                         (assetsResult.getMessage() != null ? assetsResult.getMessage() : "未找到素材"));
             }
 
-            List<AssetDetailResponse> assets = assetsResult.getData();
+            List<AssetResponse> assets = assetsResult.getData();
 
             // 4. 下载素材并构造 Media
             List<Media> mediaList = new ArrayList<>();
@@ -1076,7 +1076,7 @@ public class MultimodalTools {
             List<Map<String, Object>> skippedAssets = new ArrayList<>();
 
             for (int i = 0; i < assets.size(); i++) {
-                AssetDetailResponse asset = assets.get(i);
+                AssetResponse asset = assets.get(i);
                 String assetId = asset.getId();
                 String assetName = asset.getName();
                 String fileUrl = asset.getFileUrl();

@@ -11,7 +11,7 @@ import com.actionow.agent.dto.response.AttachmentInfo;
 import com.actionow.agent.dto.response.MessageResponse;
 import com.actionow.agent.dto.response.SessionResponse;
 import com.actionow.agent.client.AssetLocalClient;
-import com.actionow.agent.client.dto.AssetDetailResponse;
+import com.actionow.project.dto.asset.AssetResponse;
 import com.actionow.agent.dto.response.SessionStateResponse;
 import com.actionow.agent.interaction.AgentAskHistoryService;
 import com.actionow.agent.interaction.AgentStreamBridge;
@@ -379,9 +379,9 @@ public class AgentController {
     private Map<String, AttachmentInfo> resolveAttachments(List<String> assetIds) {
         Map<String, AttachmentInfo> map = new HashMap<>();
         try {
-            Result<List<AssetDetailResponse>> result = assetLocalClient.batchGetAssetDetails(assetIds);
+            Result<List<AssetResponse>> result = assetLocalClient.batchGetAssetDetails(assetIds);
             if (result != null && result.isSuccess() && result.getData() != null) {
-                for (AssetDetailResponse asset : result.getData()) {
+                for (AssetResponse asset : result.getData()) {
                     if (asset.getId() == null) continue;
                     map.put(asset.getId(), AttachmentInfo.builder()
                             .assetId(asset.getId())

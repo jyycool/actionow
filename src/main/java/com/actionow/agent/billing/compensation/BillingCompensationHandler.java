@@ -4,8 +4,8 @@ import com.actionow.agent.billing.entity.AgentBillingSession;
 import com.actionow.agent.billing.mapper.AgentBillingSessionMapper;
 import com.actionow.agent.config.AgentRuntimeConfigService;
 import com.actionow.agent.client.WalletLocalClient;
-import com.actionow.agent.client.dto.ConfirmConsumeRequest;
-import com.actionow.agent.client.dto.UnfreezeRequest;
+import com.actionow.wallet.dto.ConfirmConsumeRequest;
+import com.actionow.wallet.dto.UnfreezeRequest;
 import com.actionow.common.core.result.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -113,14 +113,12 @@ public class BillingCompensationHandler {
 
         try {
             // 调用钱包服务确认消费
-            ConfirmConsumeRequest request = ConfirmConsumeRequest.builder()
-                    .workspaceId(session.getWorkspaceId())
-                    .operatorId(session.getUserId())
-                    .businessId(session.getConversationId())
-                    .businessType(BUSINESS_TYPE_AGENT_SESSION)
-                    .actualAmount(safeAmount)
-                    .remark("Agent 会话补偿结算")
-                    .build();
+            ConfirmConsumeRequest request = new ConfirmConsumeRequest();
+            request.setWorkspaceId(session.getWorkspaceId());
+            request.setOperatorId(session.getUserId());
+            request.setBusinessId(session.getConversationId());
+            request.setBusinessType(BUSINESS_TYPE_AGENT_SESSION);
+            request.setActualAmount(safeAmount);
 
             Result<Void> result = walletLocalClient.confirmConsume(
                     session.getWorkspaceId(), request);
@@ -155,14 +153,12 @@ public class BillingCompensationHandler {
             // 如果有实际消费，先确认消费部分（封顶：不超过冻结额，防止余额下溢）
             if (session.getTotalCost() > 0) {
                 long safeAmount = Math.min(session.getTotalCost(), session.getFrozenAmount());
-                ConfirmConsumeRequest confirmRequest = ConfirmConsumeRequest.builder()
-                        .workspaceId(session.getWorkspaceId())
-                        .operatorId(session.getUserId())
-                        .businessId(session.getConversationId())
-                        .businessType(BUSINESS_TYPE_AGENT_SESSION)
-                        .actualAmount(safeAmount)
-                        .remark("Agent 会话补偿结算（部分消费）")
-                        .build();
+                ConfirmConsumeRequest confirmRequest = new ConfirmConsumeRequest();
+                confirmRequest.setWorkspaceId(session.getWorkspaceId());
+                confirmRequest.setOperatorId(session.getUserId());
+                confirmRequest.setBusinessId(session.getConversationId());
+                confirmRequest.setBusinessType(BUSINESS_TYPE_AGENT_SESSION);
+                confirmRequest.setActualAmount(safeAmount);
 
                 Result<Void> confirmResult = walletLocalClient.confirmConsume(
                         session.getWorkspaceId(), confirmRequest);
@@ -176,13 +172,11 @@ public class BillingCompensationHandler {
             }
 
             // 无实际消费，直接解冻
-            UnfreezeRequest unfreezeRequest = UnfreezeRequest.builder()
-                    .workspaceId(session.getWorkspaceId())
-                    .operatorId(session.getUserId())
-                    .businessId(session.getConversationId())
-                    .businessType(BUSINESS_TYPE_AGENT_SESSION)
-                    .remark("Agent 会话超时解冻")
-                    .build();
+            UnfreezeRequest unfreezeRequest = new UnfreezeRequest();
+            unfreezeRequest.setWorkspaceId(session.getWorkspaceId());
+            unfreezeRequest.setOperatorId(session.getUserId());
+            unfreezeRequest.setBusinessId(session.getConversationId());
+            unfreezeRequest.setBusinessType(BUSINESS_TYPE_AGENT_SESSION);
 
             Result<Void> unfreezeResult = walletLocalClient.unfreeze(
                     session.getWorkspaceId(), unfreezeRequest);

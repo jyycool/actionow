@@ -1,9 +1,9 @@
 package com.actionow.agent.client;
 
-import com.actionow.agent.client.dto.AssetDetailResponse;
 import com.actionow.common.core.result.Result;
 import com.actionow.common.util.LocalClientDtoMapper;
 import com.actionow.project.controller.EntityQueryInternalController;
+import com.actionow.project.dto.asset.AssetResponse;
 import com.actionow.project.dto.asset.CreateAssetRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ObjectProvider;
@@ -47,8 +47,8 @@ public class AgentAssetLocalClient implements AssetLocalClient {
     }
 
     @Override
-    public Result<List<AssetDetailResponse>> batchGetAssetDetails(List<String> assetIds) {
-        return convertList(entityQueryInternalController().batchGetAssetDetails(assetIds), AssetDetailResponse.class);
+    public Result<List<AssetResponse>> batchGetAssetDetails(List<String> assetIds) {
+        return entityQueryInternalController().batchGetAssetDetails(assetIds);
     }
 
     @Override
