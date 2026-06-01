@@ -215,6 +215,7 @@ springdoc:
   show-actuator: false
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+  packages-to-scan: com.actionow
 
 management:
   endpoints:
