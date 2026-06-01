@@ -28,7 +28,7 @@ import java.util.Map;
 @Slf4j
 @Tag(name = "认证管理", description = "用户注册、登录、登出等认证相关接口")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user/auth")
 @RequiredArgsConstructor
 public class AuthController extends BaseController {
 
