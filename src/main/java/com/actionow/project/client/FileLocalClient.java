@@ -1,7 +1,8 @@
 package com.actionow.project.client;
 
 import com.actionow.common.core.result.Result;
-import org.springframework.web.bind.annotation.*;
+import com.actionow.common.file.dto.FileTransferRequest;
+import com.actionow.common.file.dto.FileUploadResult;
 
 import java.util.List;
 
